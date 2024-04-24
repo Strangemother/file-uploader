@@ -24,5 +24,7 @@ class FileUnit(models.Model):
     verification = fields.json()
     deletion = fields.json()
 
+    download_count = fields.int(default=0)
+
     created, updated = fields.dt_cu_pair()
 

@@ -1,4 +1,4 @@
-{% extends "../file/base.html" %}
+{% theme "base" %}
 {% load static link quickforms %}
 
 {% comment %}
@@ -25,8 +25,8 @@
 
     <div class="upload_percent">
         <label for="file">File progress:</label>
-        <progress id="file_upload_progress" max="100" value="70">70%</progress>
-        <span class='percent-text'>-1%</span>
+        <progress id="file_upload_progress" max="100" value="0">--</progress>
+        <span class='percent-text'>0%</span>
     </div>
     <script>
         var UPLOADS = {

@@ -31,11 +31,13 @@ UPLOADS = ROOT / "uploads"
 fs = FileSystemStorage(location=UPLOADS)
 
 
-class FileDetailView(views.DetailView):
+class FileDetailView(views.UserOwnedMixin, views.DetailView):
     template_name = "file/file_detail.html"
     model = models.FileUnit
     slug_url_kwarg = 'uuid'
     slug_field = 'file_uuid'
+    user_field = 'user'
+    user_allow_staff = True
 
 
 class UserFileUnitListView(views.ListView):
@@ -67,6 +69,7 @@ class UploadAssetSuccessModelView(UploadAssetSuccessView):
 
 
 class MergeAssetModelView(MergeAssetView):
+    template_name = 'file/merge_view.html'
 
     def get_asset(self):
         """return the DB model
@@ -271,11 +274,14 @@ class DownloadAccessibleFileView(views.TemplateView):
         context = self.get_context_data(**kwargs)
         path = self.resolve_fullpath(self.kwargs['uuid'])
         name = context.get('filename') or path.name
+
         return streamfile_response(path, name)
         # return self.render_to_response(context)
 
 
-class DownloadAccessibleFileModelView(DownloadAccessibleFileView):
+class DownloadAccessibleFileModelView(views.UserOwnedMixin, DownloadAccessibleFileView):
+    user_field = 'user'
+    user_allow_staff = True
 
     def get_asset(self):
         """return the DB model
@@ -287,9 +293,14 @@ class DownloadAccessibleFileModelView(DownloadAccessibleFileView):
             ).get()
         return info
 
+    get_object = get_asset
+
     def resolve_fullpath(self, uuid):
         # username = self.get_current_username()
-        path = self.get_asset().store_path
+        asset = self.get_asset()
+        path = asset.store_path
+        asset.download_count += 1
+        asset.save()
         # Resolve with the given path
         root = Path(fs.location)
         out_path = root / path

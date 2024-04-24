@@ -24,6 +24,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
+    "trim.account",
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     "taggit",
     "cinderblock",
     "trim",
+    "trim.theming",
     "file",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -77,6 +79,9 @@ TEMPLATES = [
         ],
         "APP_DIRS": True,
         "OPTIONS": {
+            'builtins': [
+                'trim.theming.builtins',
+            ],
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
@@ -86,6 +91,12 @@ TEMPLATES = [
         },
     },
 ]
+
+THEMING_MAP = {
+    'base': 'generic-base.html',
+    # 'detail.default': 'detail.html',
+}
+
 
 WSGI_APPLICATION = "website.wsgi.application"
 
@@ -182,5 +193,8 @@ WAGTAILSEARCH_BACKENDS = {
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = "http://example.com"
 
+
+LOGIN_REDIRECT_URL = 'account:profile'
+LOGIN_URL = 'account:login'
 
 CHUNK_UPLOAD_DIR = '../uploads'
