@@ -1,0 +1,2 @@
+# Cinderblock addons, separated from the primary application requirements.
+# https://pip.pypa.io/en/latest/reference/requirements-file-format/

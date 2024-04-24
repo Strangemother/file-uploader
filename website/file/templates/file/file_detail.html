@@ -1,0 +1,57 @@
+{% extends "./base.html" %}
+{% load static link quickforms %}}
+
+{% block content.center %}
+
+object: {{ object }}
+<ul>
+    <li>
+        <span>name</span>
+        <span>{{ object.name }}</span>
+    </li>
+    <li>
+        <span>suffix</span>
+        <span>{{ object.suffix }}</span>
+    </li>
+    <li>
+        <span>file_uuid</span>
+        <span>{{ object.file_uuid }}</span>
+    </li>
+    <li>
+        <span>bytesize</span>
+        <span>{{ object.bytesize }}</span>
+    </li>
+    <li>
+        <span>filepath</span>
+        <span>{{ object.filepath }}</span>
+    </li>
+    <li>
+        <span>filetype</span>
+        <span>{{ object.filetype }}</span>
+    </li>
+    <li>
+        <span>filename</span>
+        <span>{{ object.filename }}</span>
+    </li>
+    <li>
+        <span>internal_name</span>
+        <span>{{ object.internal_name }}</span>
+    </li>
+    <li>
+        <span>done</span>
+        <span>{{ object.done }}</span>
+    </li>
+    <li>
+        <span>user</span>
+        <span>{{ object.user }}</span>
+    </li>
+    <li>
+        <span>Download</span>
+        <span>{% link "file:download"  object.file_uuid "Download" %}</span>
+
+    </li>
+
+</ul>
+
+
+{% endblock content.center %}

@@ -1,0 +1,113 @@
+{% load wagtailadmin_tags  %}
+
+<div class="{{ classname }}">
+    {% if help_text %}
+        <span>
+            <div class="help">
+                {% icon name="help" classname="default" %}
+                {{ help_text }}
+            </div>
+        </span>
+    {% endif %}
+
+    {% with vals=children.values %}
+
+        <div class='block-tabs'>
+            <a onclick="toggleTab(event)"
+                href="javascript:;"
+                class='selected' data-group='default'>Content</a>
+            <a onclick="toggleTab(event)"
+                href="javascript:;"
+                class='' data-group='secondary'>Extras</a>
+        </div>
+
+        <div class="field-group group-default display-show">
+            
+            {% for child in vals %}
+                {% if child.block.meta.group != 'secondary' %}
+                    {% include "./struct-block-field.html" with child=child %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="field-group group-secondary display-hidden">
+            
+            {% for child in vals %}
+                {% if child.block.meta.group == 'secondary' %}
+                    {% include "./struct-block-field.html" with child=child %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <script>
+            function toggleTab(event) {
+                var t = event.currentTarget;
+                let tabsContainer = t.parentElement
+                let container = t.parentElement.parentElement.parentElement
+                let type = t.dataset.group
+
+                tabsContainer
+                    .querySelectorAll('a')
+                    .forEach(function(e, i, a){
+                        e.classList.remove('selected');
+                    })
+                    ;
+                t.classList.add('selected')
+
+                // Hide all tabs.
+                container
+                    .querySelectorAll('.field-group')
+                    .forEach(function(e, i, a){
+                        e.classList.remove('display-show');
+                        e.classList.add('display-hidden');
+                    })
+                    ;
+                // Get all groups with the class name. matching the dataset
+                // group.
+                container
+                    .querySelectorAll(`.field-group.group-${type}`)
+                    .forEach(function(e, i, a){
+                        e.classList.remove('display-hidden');
+                        e.classList.add('display-show');
+                    })
+                    ;
+
+            }
+        </script>
+
+        <style type="text/css">
+            .block-tabs {
+                display: flex;
+                gap: .5em;
+                margin-bottom: 1em;
+            }
+            .field-group.display-show {
+                display: initial;
+            }
+
+            .field-group.display-hidden {
+                display: none;
+            }
+
+            .block-tabs a {
+                color: var(--w-color-text-link-default);
+                background: #222;
+                padding: 0em 0.9em 0.1em;
+                display: inline-flex;
+                border-radius: 1em;
+            }
+
+            .block-tabs a:hover {
+                text-decoration: underline;
+            }
+
+            .block-tabs a.selected {
+                background: #111;
+                color: var(--w-color-text-button);
+                /*text-decoration: underline;*/
+            }
+
+        </style>
+
+    {% endwith %}
+</div>

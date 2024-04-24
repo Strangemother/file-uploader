@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% comment "What" %}
+    The 'three-col' template allows a simple
+
+        left    center      right
+
+    where the left is usually designated to site-wide pages, and the right is
+    dedicated to the in-page (local) page content, such as a TOC.
+{% endcomment %}
+{% load static link %}
+
+{% block body_class %}dev-mode three-column-template-homepage{% endblock %}
+
+{% block extra_css %}
+
+    {% css "css/alt-base/base.css" %}
+    {% css "css/alt-base/header-nav.css" %}
+    {% css "css/alt-base/three-col.css" %}
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<header class="classic-header sticky">
+    <div class="logo">
+        <h1>
+        {{ page.get_site.site_name }}
+    </h1>
+    </div>
+    <nav class="header-nav">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Other</a></li>
+            <li><a href="#">Cheese</a></li>
+        </ul>
+    </nav>
+    <div class="user-area">
+        <div class="account-area">
+            <a href="#">{{ user }}</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="column-base">
+        <div class="left secondary-column">
+            {% block content.left %}{% endblock content.left %}
+        </div>
+
+        <div class="center primary-column">
+            {% block content.center %}
+            <h1>Content Here</h1>
+            {% lorem 30 p %}
+            {% endblock content.center %}
+        </div>
+
+        <div class="right secondary-column">
+            {% block content.right %}{% endblock content.right %}
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-area">
+
+    </div>
+</footer>
+
+{% endblock content %}

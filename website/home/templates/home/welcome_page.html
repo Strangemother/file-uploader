@@ -1,0 +1,92 @@
+{% load i18n wagtailcore_tags static %}
+
+<script>
+    document.body.classList.add('animate-in');
+</script>
+
+<header class="header">
+    <div class="logo">
+        <a href="#">
+            Cinderblock
+        </a>
+    </div>
+    <div class="header-link">
+        Version 5
+    </div>
+</header>
+
+<main class="main">
+    <div class="figure">
+        <img src="{% static 'images/cinderblock.png' %}" alt="large purple Cinderblock">
+    </div>
+    <div class="main-text">
+        <h1>{% trans "Welcome to your new Cinderblock site!" %}</h1>
+        <p>Project website</p>
+    </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+
+    <ul class="footer-links">
+        <li>
+            <h2>Documentations</h2>
+
+            <ul class="docs-links">
+                <li class="cinderblock-link">
+                    <a class="" href="cinderblock/docs/">
+                        
+                        <h2>{% trans "Cinderblock Documentation" %}</h2>
+                    </a>
+                </li>
+
+                <li class="wagtail-link">
+                    <a class="" href="{% wagtail_documentation_path %}/">
+                        
+                        <h2>{% trans "Wagtail Documentation" %}</h2>
+                    </a>
+
+                    <ul>
+                        <li>
+                            <a class="" href="{% wagtail_documentation_path %}/getting_started/tutorial.html">
+                                
+                                {% trans "Tutorial" %}:
+                                {% trans "Build your first Wagtail site" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="" href="{% wagtail_documentation_path %}/releases/{% wagtail_release_notes_path %}">
+                                {% comment %}
+                                This works for all cases but prerelease versions:
+                                {% endcomment %}
+                                {% trans "View the release notes" %}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="django-link">
+                    <a class="" href="https://docs.djangoproject.com/en/5.0/">
+                        
+                        <div>
+                            <h2>{% trans "Django Documentation" %}</h2>
+
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </li>
+        <li class="admin-links">
+            <h2>Admin Interfaces</h2>
+            <a class="wagtail-admin admin-link" href="{% url 'wagtailadmin_home' %}">
+                <h3>{% trans "Admin Interface" %}</h3>
+                <p>{% trans "Create your superuser first!" %}</p>
+            </a>
+
+            <a class="django-admin admin-link" href="{% url 'admin:index' %}">
+                <h3>{% trans "CRUD Interface" %}</h3>
+                <p>{% trans "Create your superuser first!" %}</p>
+            </a>
+        </li>
+    </ul>
+</footer>

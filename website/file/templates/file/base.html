@@ -1,0 +1,12 @@
+{% extends "alt-base/three-col.html" %}
+{% load static link %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
+{% endblock extra_css %}
+
+{% block content.center %}
+    <h1>base</h1>
+{% endblock content.center %}

@@ -1,0 +1,13 @@
+{% extends "./base.html" %}
+{% load static link %}
+
+{% block content.center %}
+    <ul>
+        {% link "file:upload"  'Upload' %}
+        {% for obj in object_list %}
+            <li>
+                {% link "file:file_detail"  obj.file_uuid obj.filepath %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content.center %}
