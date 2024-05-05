@@ -1,0 +1,31 @@
+{% load static link size strings %}
+
+<div class="breadcrumbs">
+    <ul class="display-flex
+                breadcrumb-items
+                margin-0em padding-0em
+                flex-wrap-wrap
+                list-style-none">
+
+        <li class="breadcrumb-item drive">
+            <div class="breadcrumb">
+                {% link "drives:detail" object.path.drive object.path.drive %}
+            </div>
+        </li>
+
+    {% for bit in object.path.rev_parents %}
+        {% if bit.branch %}
+        <li class="breadcrumb-item">
+            <div class="breadcrumb">
+                    {% link "drives:content" bit.drive bit.branch bit.name %}
+            </div>
+        </li>
+        {% endif %}
+    {% endfor %}
+        <li class="breadcrumb-item leaf">
+            <div class="breadcrumb">
+                <a href="#">{{object.path.name}}</a>
+            </div>
+        </li>
+    </ul>
+</div>

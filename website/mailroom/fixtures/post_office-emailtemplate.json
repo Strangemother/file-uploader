@@ -1,0 +1,152 @@
+[
+{
+  "model": "post_office.emailtemplate",
+  "pk": 1,
+  "fields": {
+    "name": "welcome_email",
+    "description": "A welcome email when the user signs up (not a registration email)",
+    "created": "2022-05-03T15:27:32.190Z",
+    "last_updated": "2022-07-04T19:04:54.670Z",
+    "subject": "Hi {{ user }}",
+    "content": "Welcome to Princeton Scientific\r\n\r\nThis email confirms your user login.",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 2,
+  "fields": {
+    "name": "contact_us_cc",
+    "description": "A CC_myself email, for users sending a message _to themselves_ as they send a message to the website.",
+    "created": "2022-06-28T02:12:54.810Z",
+    "last_updated": "2022-06-28T02:12:54.810Z",
+    "subject": "Message Sent to Princeton Scientific: {{ email.created }}",
+    "content": "This is a copy of your message, sent through the Princeton Scientific website:\r\n\r\n{{ email.message }}",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 3,
+  "fields": {
+    "name": "web_contact",
+    "description": "The contact from a web message to the administrators.",
+    "created": "2022-06-28T21:06:25.648Z",
+    "last_updated": "2022-06-28T21:33:01.794Z",
+    "subject": "\"{{ email.subject }}\" from {{ email.get_email }}: Web contact",
+    "content": "user: {{ email.user }}\r\nsender: {{ email.sender }}\r\ncreated: {{ email.created }}\r\n\r\n{{ email.subject }}\r\n\r\n--- \r\n\r\n{{ email.message }}",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 4,
+  "fields": {
+    "name": "basket_checkout",
+    "description": "The user has checked-out a basket, complete with details for an order.",
+    "created": "2022-07-04T17:25:25.246Z",
+    "last_updated": "2022-07-08T02:07:25.983Z",
+    "subject": "Princeton Scientific Order (confirmation)",
+    "content": "Hi {{ user }}\r\n\r\nThank you for visiting the Princeton Scientific Corporation online UHV shop! \r\nWe have received your requested order item(s) and will send our formal pricing quotation shortly through this email. \r\n\r\nShould you have any questions or concerns, please contact us by phone at (609) 924-3011 or via email at sales@princetonscientific.com\r\n\r\n---\r\n\r\nThis email was sent to you directly from the Princeton Scientific website services on domains .com, .shop, .store, and .site \r\n\r\nYou're receiving this automated email because you interacted with our services. We will not use or share this information for any purpose other than processing this transaction.\r\n\r\nThanks Again!\r\n - Your Princeton Scientific Robot\r\n\r\n---\r\n\r\nP.S. I've really enjoyed being the voice in your head \r\n - robot.",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 5,
+  "fields": {
+    "name": "admin_alert_basket_checkout",
+    "description": "Message to the system admin for when a checkout occurs",
+    "created": "2022-08-31T16:37:23.144Z",
+    "last_updated": "2022-08-31T16:37:23.144Z",
+    "subject": "Cart checkout occured: {{ user }}",
+    "content": "A new cart checkout was performed by {{ user }}. \r\n\r\nPlease view it here:\r\n\r\n{{ url }}",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 6,
+  "fields": {
+    "name": "stock_notification",
+    "description": "User request for a stock notification when a product is updated. The model is a StockNotification.",
+    "created": "2022-10-16T20:28:47.191Z",
+    "last_updated": "2022-10-24T00:27:11.041Z",
+    "subject": "stock notification request {{ model.product }}",
+    "content": "{% extends \"email/base.html\" %}\r\n{% block content %}\r\nUser {{ model.get_email }} has requested a stock notification when {{ model.product }} is back in stock.\r\n{% endblock %}",
+    "html_content": "{% extends \"email/html_base.html\" %}\r\n{% block content %}\r\nUser {{ model.get_email }} has requested a stock notification when {{ model.product }} is back in stock.\r\n{% endblock %}",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 7,
+  "fields": {
+    "name": "product_contact",
+    "description": "A web content for a Product question - a ProductContact model. This is the same as a ContactMessage with an additional `product`.",
+    "created": "2022-10-16T20:37:40.022Z",
+    "last_updated": "2022-10-16T20:37:40.022Z",
+    "subject": "Question about  {{ model.product }} from {{ email.get_email }}: Web contact",
+    "content": "user: {{ email.user }}\r\nsender: {{ email.sender }}\r\ncreated: {{ email.created }}\r\nproduct: {{ model.product }}\r\n\r\n{{ email.subject }}\r\n\r\n--- \r\n\r\n{{ email.message }}",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 8,
+  "fields": {
+    "name": "processing_cart_alert",
+    "description": "A message sent to the client when the 'processing' phase is set upon a cart.",
+    "created": "2022-10-17T23:34:31.123Z",
+    "last_updated": "2022-10-18T23:05:50.030Z",
+    "subject": "We're Processing your order!",
+    "content": "Hi {{ user }}\r\n\r\nThis is a quick message to tell you we're processing your recent order. {{ url }}",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 9,
+  "fields": {
+    "name": "verify_email_change",
+    "description": "Announce an email change to the primary email address. The user must verify with the token.",
+    "created": "2022-10-19T01:39:27.240Z",
+    "last_updated": "2022-10-19T01:43:51.498Z",
+    "subject": "Verify your email address change",
+    "content": "Hi {{ user }}\r\n\r\nYou have requested a change of your email address. Please verify this change by clicking the link\r\n\r\n{{ tokened_url }}\r\n\r\nIf the above link does not function, please head to the verify page and enter the token manually\r\n\r\n{{ url }}\r\n\r\n{{ accountemail.uuid_token }} \r\n\r\nAn onboarding email has been sent to your new email address.",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+},
+{
+  "model": "post_office.emailtemplate",
+  "pk": 10,
+  "fields": {
+    "name": "stock_change_alert",
+    "description": "",
+    "created": "2022-10-22T23:30:03.799Z",
+    "last_updated": "2022-10-22T23:30:03.799Z",
+    "subject": "Product back in Stock!",
+    "content": "Product \"{{ product }}\" is back in stock.",
+    "html_content": "",
+    "language": "",
+    "default_template": null
+  }
+}
+]

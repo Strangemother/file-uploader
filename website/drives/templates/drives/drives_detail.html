@@ -1,0 +1,105 @@
+{% theme "base" %}
+{% load static link size strings %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+
+    <div class="color-#ddd">
+        {% link 'drives:list' 'All Drives' %}
+
+        <h2>{{ object.volume_name}} ({{ object.caption }})</h2>
+
+        <ul class="display-grid
+                    list-style-none
+                    margin-0em padding-0em
+                    gap-.5em">
+                <li class="file-item
+                            display-grid
+                            background-#111
+                            grid-auto-flow-column">
+                    <div class="filepath word-break-break">
+
+                        <div class="caption">
+                            <span>caption</span>
+                            <span>{{ object.caption }}</span>
+                        </div>
+                        <div class="name">
+                            <span>name</span>
+                            <span>{{ object.name }}</span>
+                        </div>
+                        <div class="volume_name">
+                            <span>volume_name</span>
+                            <span>{{ object.volume_name }}</span>
+                        </div>
+                        <div class="drive_type_str">
+                            <span>drive_type_str</span>
+                            <span>{{ object.drive_type_str }}</span>
+                            <span>{{ object.drive_type }}</span>
+                        </div>
+
+                        <div>
+                            <span> -- </span>
+                        </div>
+
+                        <div class="system_name">
+                            <span>system_name</span>
+                            <span>{{ object.system_name }}</span>
+                        </div>
+
+                        <div class="provider_name">
+                            <span>provider_name</span>
+                            <span>{{ object.provider_name }}</span>
+                        </div>
+
+                        <div>
+                            <span> -- </span>
+                        </div>
+                        <div class="compressed">
+                            <span>compressed</span>
+                            <span>{{ object.compressed }}</span>
+                        </div>
+                        <div>
+                            <span> -- </span>
+                        </div>
+                        <div class="size_str">
+                            <span>size_str</span>
+                            <span>{{ object.size_str }}</span>
+                            <span>{{ object.size }}</span>
+                        </div>
+                        <div class="free_space_str">
+                            <span>free_space_str</span>
+                            <span>{{ object.free_space_str }}</span>
+                            <span>{{ object.free_space }}</span>
+                        </div>
+                        <div>
+                            <span> -- </span>
+                        </div>
+
+                        <div class="files">
+                            <span>files</span>
+                            <span>{{ object.files }}</span>
+                        </div>
+                    </div>
+                </li>
+        </ul>
+        <ul>
+            {% for obj in object.files.content_items %}
+                 <li class="display-flex">
+                    {% if obj.is_dir %}
+                        {% str_merge obj.name "/" as nn %}
+                        {% link "drives:content" obj.drive obj.branch nn %}
+                    {% else %}
+                        {% link "drives:file" obj.drive obj.branch obj.name %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% css "css/file/file_list.css" %}
+
+{% endblock content.center %}

@@ -1,0 +1,71 @@
+{% theme "base" %}
+{% load static link size strings %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+
+    <div class="color-#ddd">
+        <h2>Content</h2>
+
+        <ul class="display-grid
+                    list-style-none
+                    margin-0em padding-0em
+                    gap-.5em">
+
+            {% for obj in object_list %}
+                <li class="">
+
+
+                    {% include "./sub/breadcrumbs.html" with object=obj %}
+
+                    <div>
+                        <h3>Note</h3>
+                        <div>{{ obj.note.text }}</div>
+                    </div>
+
+        <div>
+            <h3>Publishing</h3>
+            {{ obj.is_public }}
+            {% link "publishing:form" obj.path.as_posix "Publish" %}
+        </div>
+
+                    <div class="filepath word-break-break">
+
+                        obj: {{ obj }}
+                        <ul>
+                            {% for fileitem in obj.content_items %}
+                                <li class="display-flex">
+                                    {% if fileitem.is_dir %}
+                                        {% str_merge fileitem.name "/" as nn %}
+                                        {% link "drives:content" fileitem.drive fileitem.branch nn %}
+                                    {% else %}
+                                        {% link "drives:file" fileitem.drive fileitem.branch fileitem.name %}
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <h3>Tags</h3>
+                    <ul>
+                        <li>
+                            {% link "tags:form" obj.path.as_posix "Add" %}
+                        </li>
+                        {% for tag in obj.tags.all %}
+                            <li>
+                            {% link "tags:detail" tag.slug tag.label %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% css "css/file/file_list.css" %}
+
+{% endblock content.center %}

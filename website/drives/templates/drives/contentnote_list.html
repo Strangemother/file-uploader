@@ -1,0 +1,28 @@
+{% theme "base" %}
+{% load static link size strings %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+
+    <div class="color-#ddd">
+        <h2>Notes</h2>
+
+        <ul class="display-grid
+                    list-style-none
+                    margin-0em padding-0em
+                    gap-.5em">
+            {% for obj in object_list %}
+                <li>
+                    <span>
+                       {{ obj.fullpath }}
+                    </span>
+                    <span>{{ obj.text }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock content.center %}

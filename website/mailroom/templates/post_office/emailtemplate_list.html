@@ -1,0 +1,30 @@
+{% theme 'list' %}
+{# extends "products/list_page.html" #}
+{% load link %}
+
+
+{% block header_title %}Email Templates{% endblock header_title %}
+
+{% block list_display %}
+
+    {% include "page-buttons.html" %}
+
+    <ul class="table strong-table">
+        <li class="header">
+            <span>subject</span>
+            <span>description</span>
+            <span>subject</span>
+        </li>
+
+        {% for item in object_list %}
+            <li>
+                <span>{% link 'mailroom:template' item.pk item.name %}</span>
+                <span>{{ item.description }}</span>
+                <span>{{ item.subject }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% include "page-buttons.html" %}
+
+{% endblock list_display %}

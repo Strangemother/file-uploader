@@ -1,0 +1,24 @@
+{% extends "products/list_page.html" %}
+
+{% block list_display %}
+
+{% include "page-buttons.html" %}
+
+<ul class="table">
+    <li class="header">
+        <span>created</span>
+        <span>subject</span>
+        <span>from email</span>
+    </li>
+    {% for item in object_list %}
+        <li>
+            <span>{{ item.created }}</span>
+            <span>{{ item.subject }}</span>
+            <span>{{ item.from_email }}</span>
+        </li>
+    {% endfor %}
+</ul>
+
+{% include "page-buttons.html" %}
+
+{% endblock list_display %}

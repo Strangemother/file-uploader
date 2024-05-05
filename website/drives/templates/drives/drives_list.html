@@ -1,0 +1,42 @@
+{% theme "base" %}
+{% load static link size %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+
+    <div class="color-#ddd">
+        <h2>Drives</h2>
+
+        <ul class="display-grid
+                    list-style-none
+                    margin-0em padding-0em
+                    gap-.5em">
+            {% for obj in object_list %}
+                <li class="file-item
+                            display-grid
+                            background-#111
+                            grid-auto-flow-column">
+                    <div class="filepath word-break-break">
+                        {% link 'drives:detail' obj.volume_name obj %}
+                        {% comment %}
+                        <div>drive_type_str: {{ obj.drive_type_str }}</div>
+                        <div>name: {{ obj.name }}</div>
+                        <div>volume_name: {{ obj.volume_name }}</div>
+                        <div>caption: {{ obj.caption }}</div>
+                        <div>system_name: {{ obj.system_name }}</div>
+                        <div>size_str: {{ obj.size_str }}</div>
+                        <div>free_space_str: {{ obj.free_space_str }}</div>
+                        {% endcomment %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% css "css/file/file_list.css" %}
+
+{% endblock content.center %}

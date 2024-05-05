@@ -1,0 +1,107 @@
+{% theme "page" %}
+{# extends "theme/page.html" #}
+
+{% block title %}Template Detail{% endblock title %}
+{% block template_name %}productcategory_detail{% endblock template_name %}
+
+{% block content %}
+    {% include "v1/secondary-header.html" with primary="Template Detail" secondary=object.name %}
+    {{ block.super }}
+{% endblock content %}
+
+{% block deep_content %}
+    {% with rendered_email=view.render_email %}
+
+    <div class="flex-across">
+
+        <div class="email-content flex-down grow-1 gap-1">
+
+            <div class="content border-solid">
+                <h3>Text Content</h3>
+                {% if object.content %}
+                <div class="field-value theme-background">
+                    <pre class='line'>{{ object.content }}</pre>
+                </div>
+                {% else %}
+                    <div class="empty field value">
+                        <div class="empty-placeholder">No content</div>
+                    </div>
+                {% endif %}
+            </div>
+
+                {% if object.html_content %}
+                <div class="html-content border-solid">
+                    <h3>HTML Content</h3>
+                    <div class="field-value theme-background">
+                        <pre class='line'>{{ object.html_content }}</pre>
+                    </div>
+                </div>
+                {% else %}
+                <div class="html-content border-solid no-content grey-text">
+                    <h3>HTML Content</h3>
+                    <div class="empty field value">
+                        <div class="empty-placeholder">No content</div>
+                    </div>
+                </div>
+                {% endif %}
+
+            <div class="demo border-solid">
+                <h3>Demo</h3>
+                <div class="content">
+                        <div class="subject">{{ rendered_email.subject }}</div>
+                        <hr>
+                        <div class="message theme-background">
+                            <pre class="line">{{ rendered_email.message }}</pre>
+                        </div>
+                        <hr>
+                        <div class="html_message theme-background">{{ rendered_email.html_message|safe }}</div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="demo-data">
+
+            <h4>Params</h4>
+            <ul class="table">
+                <li>
+                    <span>pack</span>
+                    <ul class="table">
+                        <li>
+                            <span>name</span>
+                            <span>type</span>
+                            <span>value</span>
+                        </li>
+                    </ul>
+                </li>
+                {% for demo in object.emailtemplatedemodata_set.all %}
+                    <li>
+                        <span>{{ demo.name }}</span>
+                        <ul class="table">
+                            {% for option in demo.options.all %}
+                            <li data-key='{{ option.key }}'>
+                                <span>{{ option.key }}{% if option.required %}*{% endif %}</span>
+                                <span>{{ option.type }}</span>
+                                <span>{{ option.value }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <h4>Discovered</h4>
+
+            <ul>
+                {% for param in rendered_email.discovered_fields %}
+                    <li>{{ param }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    {% endwith %}
+
+{% endblock deep_content %}

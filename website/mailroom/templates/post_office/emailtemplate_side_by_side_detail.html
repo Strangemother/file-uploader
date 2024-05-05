@@ -1,0 +1,62 @@
+{% extends "theme/page.html" %}
+
+{% block title %}Template Detail{% endblock title %}
+{% block template_name %}productcategory_detail{% endblock template_name %}
+
+{% block content %}
+    {% include "v1/secondary-header.html" with primary="Template Detail" secondary=object.name %}
+    {{ block.super }}
+{% endblock content %}
+
+{% block deep_content %}
+    {{ object }}
+
+{% with rendered_email=view.render_email %}
+    <div class="content">
+        <h3>Text Content</h3>
+        <div class="flex-across">
+            <div class="left-content flex-basis-50per">
+                {% if object.content %}
+                <div class="field-value theme-background">
+                    <pre class='line'>{{ object.content }}</pre>
+                </div>
+                {% else %}
+                    <div class="empty field value">
+                        <div class="empty-placeholder">No content</div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="right-content flex-basis-50per">
+                <div class="subject">{{ rendered_email.subject }}</div>
+                <hr>
+                <div class="message theme-background">
+                    <pre class="line">{{ rendered_email.message }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="html-content">
+        <h3>HTML Content</h3>
+        <div class="flex-across">
+            <div class="left-content flex-basis-50per">
+                {% if object.html_content %}
+                <div class="field-value theme-background">
+                    <pre class='line'>{{ object.html_content }}</pre>
+                </div>
+                {% else %}
+                    <div class="empty field value">
+                        <div class="empty-placeholder">No content</div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="right-content flex-basis-50per">
+                <div class="subject">{{ rendered_email.subject }}</div>
+                <hr>
+                <div class="html_message theme-background">{{ rendered_email.html_message|safe }}</div>
+            </div>
+        </div>
+    </div>
+
+{% endwith %}
+
+{% endblock deep_content %}

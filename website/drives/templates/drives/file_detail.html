@@ -1,0 +1,60 @@
+{% theme "base" %}
+{% load static link size strings filereader %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+
+    <div class="color-#ddd">
+        {% link 'drives:list' 'All Drives' %}
+
+        <h2>File</h2>
+
+        {% include "./sub/breadcrumbs.html" %}
+
+        <div>
+            {{ object.path }}
+            {% link "file:open" object.path.as_posix "open" %}
+        </div>
+
+        <div>
+            <h3>Note</h3>
+            <div>
+            {{ obj.note }}
+            </div>
+        </div>
+
+        <div>
+            <h3>Publishing</h3>
+            {{ object.is_public }}
+            {% link "publishing:form" object.path.as_posix "Publish" %}
+        </div>
+
+        {{ object }}
+
+        <h3>Tags</h3>
+        <ul>
+            <li>
+                {% link "tags:form" object.path.as_posix "Add" %}
+            </li>
+        {% for tag in object.tags.all %}
+            <li>{{ tag }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <h3>Addons</h3>
+    <ul>
+        {% for addon in object.addons %}
+            <li>
+                {% reader.show addon object.path %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% css "css/file/file_list.css" %}
+
+{% endblock content.center %}
