@@ -1,0 +1,34 @@
+{% theme "base" %}
+{% load static link quickforms %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+    Tag: {{ object }}
+
+    <ul>
+    {% for group in object.pathtaggroup_set.all %}
+        <li>
+            {% if group.is_dir %}
+                {% link "drives:content" group.fullpath group.fullpath %}
+            {% else %}
+                {% link "drives:file" group.fullpath group.fullpath %}
+            {% endif %}
+            {% comment %}
+            <ul>
+                {% for tag in group.tags.all %}
+                    <li>
+                        {{ tag }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endcomment %}
+        </li>
+    {% endfor %}
+    </ul>
+
+</div>
+
+{% endblock content.center %}
