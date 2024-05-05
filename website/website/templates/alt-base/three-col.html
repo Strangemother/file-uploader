@@ -21,24 +21,31 @@
 
 {% block content %}
 
-<header class="classic-header sticky">
-    <div class="logo">
+<header polyclass class="classic-header
+              position-sticky
+              top-0em
+              display-grid
+              grid-auto-flow-column
+              background-#0a0a0a
+              align-items-center
+              grid-auto-columns-1fr-5em">
+
+    <div class="logo display-none">
         <h1>
-        {{ page.get_site.site_name }}
-    </h1>
+            {{ page.get_site.site_name }}
+        </h1>
     </div>
+
     <nav class="header-nav">
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Other</a></li>
-            <li><a href="#">Cheese</a></li>
-        </ul>
+        {% include "../nav.html" %}
     </nav>
+
     <div class="user-area">
         <div class="account-area">
-            <a href="#">{{ user }}</a>
+            {% link "account:profile" user %}
         </div>
     </div>
+
 </header>
 
 <main>

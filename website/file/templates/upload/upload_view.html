@@ -1,40 +1,84 @@
 {% theme "base" %}
 {% load static link quickforms %}
 
+{% block wagtailbar %}{% endblock wagtailbar %}
 {% comment %}
-
 {% block body_class %}cars-list background-#111{% endblock %}
+{% endcomment %}
 
 {% block extra_css %}
-    {% css "css/general.css" %}
-{% endblock extra_css %}
+    {{ block.super }}
 
-{% endcomment %}
+    {% css "css/file/upload.css" %}
+
+{% endblock extra_css %}
 
 {% block content.center %}
 
-    <h1>Upload File</h1>
+<div polyclass>
+
+    <h1 class="display-none">Upload File</h1>
+
+    <div class="single drag-drop-zone">
+        <div class="display-grid
+                    justify-content-center
+                    text-align-center
+                    padding-2em
+                    background-#00000099
+                    border-radius-0em
+                    margin-2em-0em-0em">
+
+            <h2 class='margin-bottom-1em display-none'>Drop Here</h2>
+
+            <div class="image-container fadein-up">
+                <img class='width-20em'
+                     src="{% static "images/document.png" %}"
+                     alt="upload file">
+            </div>
+        </div>
+    </div>
+    <div class="upload-percent">
+        <label class="display-none" for="file">File progress:</label>
+
+        <progress
+            id="file_upload_progress"
+            max="100"
+            value="0">--</progress>
+
+        <div class="percent-text-container">
+            <span class='percent-text'></span>
+        </div>
+    </div>
+
     {% quickform.form form %}
 
-    <a class='merge-link' href="javascript:;" onclick="openFormMerge(event)">Recombine</a>
+    <a class='merge-link display-none'
+        href="javascript:;"
+        onclick="openFormMerge(event)">Recombine</a>
 
-    <div class="file-chunk-form display-hidden">
+    <div class="file-chunk-form display-none">
         {% url "file:upload_chunk" as form_upload_url %}
         {% quickform.form file_chunk_form action_url=form_upload_url %}
     </div>
+</div>
 
-    <div class="upload_percent">
-        <label for="file">File progress:</label>
-        <progress id="file_upload_progress" max="100" value="0">--</progress>
-        <span class='percent-text'>0%</span>
-    </div>
-    <script>
-        var UPLOADS = {
-            templateStr: 999,
-            mergeView: '{% url "file:merge" 999 %}',
+<script>
+    var UPLOADS = {
+        templateStr: 999
+        , mergeView: '{% url "file:merge" 999 %}'
+        , autoContinue: true
+        , allowances: {
+            max_file_size: (function(){
+                            return {{ user.allowances.max_file_size }}
+                        })() || 1
         }
+    }
+</script>
 
-    </script>
-    {% js "js/forms/chunk_upload.js" %}
+{% js "js/forms/chunk_upload.js" %}
+{% js "js/form-drop-zones.js" %}
+
+{% js "js/file/upload_view.js" %}
+
 
 {% endblock content.center %}

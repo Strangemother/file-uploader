@@ -25,6 +25,14 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 INSTALLED_APPS = [
     "trim.account",
+    'post_office',
+    'mailroom',
+    'publishing',
+    'drives',
+    'drive_tags',
+    'explorer',
+    'history',
+    'monitor',
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -94,6 +102,7 @@ TEMPLATES = [
 
 THEMING_MAP = {
     'base': 'generic-base.html',
+    'base.raw': 'raw-base.html',
     # 'detail.default': 'detail.html',
 }
 
@@ -108,6 +117,14 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    },
+    "history": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "history_db.sqlite3"),
+    },
+    "monitor": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "monitor_db.sqlite3"),
     }
 }
 
@@ -198,3 +215,19 @@ LOGIN_REDIRECT_URL = 'account:profile'
 LOGIN_URL = 'account:login'
 
 CHUNK_UPLOAD_DIR = '../uploads'
+
+
+POST_OFFICE = {
+    'MESSAGE_ID_ENABLED': True,
+    'MESSAGE_ID_FQDN': 'example.com',
+}
+
+# A list of system receipients for high level contact, such as webforms.
+# overidden in dev and prod.
+SYS_RECIPIENTS = [
+    'backup@strangemother.com'
+]
+
+EMAIL_BACKEND = 'post_office.EmailBackend'
+DEFAULT_FROM_EMAIL = 'Website <noreply@example.com>'
+SERVER_EMAIL = 'Website Robot <server@example.com>'

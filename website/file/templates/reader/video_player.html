@@ -1,0 +1,28 @@
+<!--
+<embed
+    type="application/x-vlc-plugin"
+    pluginspage="http://www.videolan.org"
+    version="VideoLAN.VLCPlugin.2"
+    width="640"
+    height="480"
+    target="file:///x:/vid.avi"
+    id="vlc">
+</embed>
+-->
+
+{% url 'file:file_read' filepath.as_posix as http_filepath %}
+{{ http_filepath }}
+<video
+   src="{{ http_filepath }}" type="video/avi"
+    controls>
+  <p>
+    Your browser doesn't support HTML video. Here is a
+    <a href="{{ http_filepath }}" download="{{ http_filepath }}">link to the video</a> instead.
+  </p>
+</video>
+
+
+
+
+
+

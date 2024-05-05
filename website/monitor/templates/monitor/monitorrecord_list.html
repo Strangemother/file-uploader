@@ -1,0 +1,20 @@
+{% theme "base" %}
+{% load static link quickforms %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+    <h1>Changes for {{ object }}</h1>
+    <ul>
+        {% for item in object_list %}
+        <li>
+            {{ item.type }}
+            {{ item.created }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock content.center %}

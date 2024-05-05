@@ -1,0 +1,42 @@
+
+li.file-item .filepath a {
+    word-break: break-word;
+    color: inherit;
+    display: block;
+    text-decoration: none;
+    padding: 1em 2em;
+    /* border-radius: 2.3em; */
+}
+
+
+
+
+li.file-item a:hover,
+li.file-item a:focus,
+li.file-item a:focus-within {
+    background: #000;
+}
+
+.download-link-container {
+    justify-content: flex-end;
+}
+
+
+.breadcrumb-item a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    background: #010101;
+    display: block;
+    border-radius: 2em;
+}
+
+.breadcrumb-items {
+    gap: 0.9em;
+}
+
+.direction-reverse {flex-direction: row-reverse;}
+
+.breadcrumbs {
+    display: flex;
+}

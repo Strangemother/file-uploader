@@ -1,57 +1,43 @@
 {% theme "base" %}
-{% load static link quickforms %}}
+{% load static link quickforms size %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
 
 {% block content.center %}
 
-Unit: {{ object }}
-<ul>
-    <li>
-        <span>name</span>
-        <span>{{ object.name }}</span>
-    </li>
-    <li>
-        <span>suffix</span>
-        <span>{{ object.suffix }}</span>
-    </li>
-    <li>
-        <span>file_uuid</span>
-        <span>{{ object.file_uuid }}</span>
-    </li>
-    <li>
-        <span>bytesize</span>
-        <span>{{ object.bytesize }}</span>
-    </li>
-    <li>
-        <span>filepath</span>
-        <span>{{ object.filepath }}</span>
-    </li>
-    <li>
-        <span>filetype</span>
-        <span>{{ object.filetype }}</span>
-    </li>
-    <li>
-        <span>filename</span>
-        <span>{{ object.filename }}</span>
-    </li>
-    <li>
-        <span>internal_name</span>
-        <span>{{ object.internal_name }}</span>
-    </li>
-    <li>
-        <span>done</span>
-        <span>{{ object.done }}</span>
-    </li>
-    <li>
-        <span>user</span>
-        <span>{{ object.user }}</span>
-    </li>
-    <li>
-        <span>Download</span>
-        <span>{% link "file:download"  object.file_uuid "Download" %}</span>
+<div polyclass>
 
-    </li>
+    <h1>Uploaded File</h1>
 
-</ul>
+    {% link "tags:form" object.as_posix 'tag' %}
 
+    <div>
+        {% include "./sub/card.html" %}
+    </div>
+
+    {% if user.is_staff %}
+        {% link "drives:file" object.as_posix "File" %}
+    {% endif %}
+    <div>
+        <h3>Publishing</h3>
+        {{ object.is_public }}
+        {% link "publishing:form" object.as_posix "Publish" %}
+    </div>
+
+    <h3>Tags</h3>
+    <ul>
+        <li>
+            {% link "tags:form" object.as_posix "Add" %}
+        </li>
+    {% for tag in object.tags.all %}
+        <li>
+            {% link "tags:detail" tag.slug tag.label %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+
+{% css "css/file/file_detail.css" %}
 
 {% endblock content.center %}

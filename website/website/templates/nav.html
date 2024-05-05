@@ -1,0 +1,15 @@
+{% load link %}
+<ul class="margin-1em-0em padding-0em">
+    <a href="/">Home</a>
+
+    {% link "publishing:list" "Published" %}
+    {% link "file:list" "Uploads" %}
+    {% link "file:upload" "[+]" %}
+
+    {% link "tags:list" "Tags" %}
+    {% if user.is_staff %}
+        {% link "drives:list" "Drives" %}
+        {% link "history:list" "History" %}
+        {% link "monitor:list" "Monitor" %}
+    {% endif %}
+</ul>

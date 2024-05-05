@@ -6,7 +6,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
-from trim.urls import path_includes as includes
+from trim.urls import path_includes_pair as includes
 
 from search import views as search_views
 
@@ -15,7 +15,16 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
-] + includes('file', 'trim.account')
+] + includes(
+        ('file', 'uploads/',),
+        'drives',
+        'history',
+        'publishing',
+        'monitor',
+        'explorer',
+        ('trim.account', 'account/',),
+        ('drive_tags', 'tags/',),
+    )
 
 
 if settings.DEBUG:

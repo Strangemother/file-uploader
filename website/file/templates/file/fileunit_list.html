@@ -1,13 +1,100 @@
 {% theme "base" %}
-{% load static link %}
+{% load static link size %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
 
 {% block content.center %}
-    <ul>
-        {% link "file:upload"  'Upload' %}
-        {% for obj in object_list %}
-            <li>
-                {% link "file:file_detail"  obj.file_uuid obj.filepath %}
-            </li>
-        {% endfor %}
-    </ul>
+
+<div polyclass>
+
+    <div class="display-grid">
+        <h2>Info</h2>
+
+        <div class="info-panel-container display-grid grid-auto-flow-column">
+            {% with opts=user.allowances %}
+            <div class="info-panel allowance display-grid">
+                <div>
+                    <div class="label">Name</div>
+                    <div class="value">{{ opts.name }}</div>
+                </div>
+                <div>
+                    <div class="label">Allowed</div>
+                    <div class="value">{{ opts.allocated_size }} GB</div>
+                </div>
+                <div>
+                    <div class="label">Max Upload Size</div>
+                    <div class="value">{{ opts.max_file_size }} GB</div>
+                </div>
+            </div>
+
+            {% with disk=opts.location_disk %}
+
+                <div class="info-panel available display-grid">
+                    <div>
+                        <div class="label">Total
+                            {% if user.is_staff %}
+                            {% link "drives:detail" disk.drive disk.drive %}
+                            {% link "drives:content" disk.path.as_posix disk.path.name %}
+
+                            {% endif %}
+                        </div>
+                        <div class="value">{{ disk.total|human_bytes }}</div>
+                    </div>
+                    <div>
+                        <div class="label">Used</div>
+                        <div class="value">{{ disk.used|human_bytes }}</div>
+                    </div>
+                    <div>
+                        <div class="label">Free</div>
+                        <div class="value">{{ disk.free|human_bytes }}</div>
+                    </div>
+                </div>
+            {% endwith %}
+
+            {% endwith %}
+        </div>
+    </div>
+
+
+    <div class="color-#ddd">
+        <h2>Files</h2>
+
+        {% include "trim/paginate-buttons.html" with show_count_choice=True order_fields=view.get_ordering_fields selected_order_field=view.get_selected_orderby direction=view.get_selected_direction %}
+
+
+        <ul class="display-grid
+                    list-style-none
+                    margin-0em padding-0em
+                    gap-.5em">
+            {% for obj in object_list %}
+                <li class="file-item
+                            display-grid
+                            background-#111
+                            grid-auto-columns-1fr-.2fr
+                            grid-auto-flow-column">
+                    <div class="filepath word-break-break">
+                        {% link "file:file_detail"  obj.file_uuid obj.filepath %}
+                    </div>
+                    <div class="download-link-container
+                                display-grid
+                                padding-1em-2em
+                                ">
+                        <div class="filesize">{{ obj.bytesize|human_bytes }}</div>
+                        <div class='download'>{% link "file:download"  obj.file_uuid "Download" %}</div>
+                    </div>
+
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% include "trim/paginate-buttons.html" %}
+
+        <div class="upload-link-container">
+            {% link "file:upload"  'Upload' %}
+        </div>
+    </div>
+</div>
+
+{% css "css/file/file_list.css" %}
+
 {% endblock content.center %}

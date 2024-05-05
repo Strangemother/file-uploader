@@ -1,0 +1,35 @@
+{% load static link quickforms size %}
+
+
+<ul class="file-info display-grid list-style-none margin-0em padding-0em">
+
+    <li>
+
+        <span>{% link "file:file_detail" object.file_uuid object.filepath %}</span>
+    </li>
+    <li>
+        <span>{{ object.file_uuid }}</span>
+    </li>
+    <li>
+        <span>filetype</span>
+        <span>{{ object.filetype }}, {{ object.suffix }}</span>
+    </li>
+    <li>
+        <span>Done</span>
+        <span>{{ object.done }}</span>
+    </li>
+    <li>
+        <span>User</span>
+        <span>{{ object.user }}</span>
+    </li>
+
+    <li>
+        <span>Download Count</span>
+        <span>{{ object.download_count }}</span>
+    </li>
+    <li>
+        <span>{{ object.bytesize|human_bytes }}</span>
+        <span>{% link "file:download"  object.file_uuid "Download" %}</span>
+
+    </li>
+</ul>

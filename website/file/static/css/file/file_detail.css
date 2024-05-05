@@ -1,0 +1,24 @@
+
+ul.file-info {
+    /* display: grid; */
+    /* margin: 0; */
+    /* padding: 0; */
+}
+
+ul.file-info li {
+    /* display: grid; */
+    /* grid-auto-flow: column; */
+    /* grid-template-columns: 8em; */
+    /* justify-items: start; */
+}
+
+
+li.file-item a {
+    word-break: break-word;
+    color: inherit;
+    display: block;
+    text-decoration: none;
+}
+
+
+

@@ -12,9 +12,11 @@ urlpatterns = urls.paths_named(views,
             )
         ),
 
-    upload=('UploadAssetModelCreateView', 'upload/'),
+    upload=('UploadAssetModelCreateView', ('add/', 'upload/', )),
+    open=('FileOpenView', 'open/<path:path>'),
     merge=('MergeAssetModelView', 'upload/merge/<str:uuid>/'),
     upload_success=('UploadAssetSuccessModelView', 'upload/success/<str:uuid>/'),
     download=('DownloadAccessibleFileModelView', 'download/<str:uuid>/'),
-    file_detail=('FileDetailView', 'detail/<str:uuid>/')
+    file_detail=('FileDetailView', 'detail/<str:uuid>/'),
+    file_read=('AccessFileView', 'read/<path:path>'),
 )

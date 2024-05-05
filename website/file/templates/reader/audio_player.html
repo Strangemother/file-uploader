@@ -1,0 +1,5 @@
+<figure>
+    {% url 'file:file_read' filepath.as_posix as http_filepath %}
+    <audio controls src="{{ http_filepath }}"></audio>
+    <a href="{{ http_filepath }}"> Download audio </a>
+</figure>

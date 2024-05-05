@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static link %}
+
+{% block body_class %}dev-mode three-column-template-homepage{% endblock %}
+
+{% block head_js %}
+    <script src="https://cdn.jsdelivr.net/npm/polyclass@latest/dist/polyclass.browser-full.js"></script>
+{% endblock head_js %}
+
+{% block extra_css %}
+    {% css "css/alt-base/base.css" %}
+{% endblock extra_css %}
+
+{% block content %}
+
+<header polyclass class="classic-header
+              position-sticky
+              top-0em
+              display-grid
+              grid-auto-flow-column
+              background-#0a0a0a
+              align-items-center
+              grid-auto-columns-1fr-5em">
+
+    <div class="logo display-none">
+        <h1>
+            {{ page.get_site.site_name }}
+        </h1>
+    </div>
+
+    <nav class="header-nav">
+    </nav>
+
+    <div class="user-area">
+        <div class="account-area">
+            {% link "account:profile" user %}
+        </div>
+    </div>
+
+</header>
+
+<main>
+    <div class="column-base">
+        <div class="center primary-column">
+            {% block content.center %}
+            <h1>Content Here</h1>
+            {% lorem 30 p %}
+            {% endblock content.center %}
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-area"></div>
+</footer>
+
+{% endblock content %}

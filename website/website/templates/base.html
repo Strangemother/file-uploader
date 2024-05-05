@@ -29,10 +29,10 @@
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+        {% block head_js %}{% endblock head_js %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
 
         {% block content %}{% endblock %}
 
@@ -43,4 +43,7 @@
         {# Override this in templates to add extra javascript #}
         {% endblock %}
     </body>
+    {% block wagtailbar %}
+        {% wagtailuserbar %}
+    {% endblock wagtailbar %}
 </html>
