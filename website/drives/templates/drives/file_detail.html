@@ -4,6 +4,7 @@
 {% block wagtailbar %}{% endblock wagtailbar %}
 
 {% block content.center %}
+{% js "js/fragment/frags.js" %}
 
 <div polyclass>
 
@@ -15,9 +16,15 @@
         {% include "./sub/breadcrumbs.html" %}
 
         <div>
-            {{ object.path }}
+            <a href="#" data-type='path'>{{ object.path }}</a>
             {% link "file:open" object.path.as_posix "open" %}
         </div>
+
+        {% link.info "thumbnailer:resize" object.path.as_posix "open" as linkinfo %}
+
+        <async-fragment load='click' url='{{linkinfo.url}}'>
+            Async info
+        </async-fragment>
 
         <div>
             <h3>Note</h3>
@@ -55,6 +62,11 @@
     </ul>
 </div>
 
+
 {% css "css/file/file_list.css" %}
+
+{% include "tools/alt-menu.html" %}
+{% css "css/tools/alt-menu.css" %}
+{% js "js/tools/alt_menu.js" %}
 
 {% endblock content.center %}

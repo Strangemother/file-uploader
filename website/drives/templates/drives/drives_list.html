@@ -4,6 +4,8 @@
 {% block wagtailbar %}{% endblock wagtailbar %}
 
 {% block content.center %}
+{% js "js/donut.js" %}
+{% js "js/drives/list.js" %}
 
 <div polyclass>
 
@@ -12,15 +14,51 @@
 
         <ul class="display-grid
                     list-style-none
-                    margin-0em padding-0em
-                    gap-.5em">
+                    margin-0em
+                    padding-0em
+                    gap-1em">
+
             {% for obj in object_list %}
                 <li class="file-item
                             display-grid
                             background-#111
+                            border-radius-4em
                             grid-auto-flow-column">
                     <div class="filepath word-break-break">
-                        {% link 'drives:detail' obj.volume_name obj %}
+
+                        {% link.info 'drives:detail' obj.volume_name obj as durl %}
+                        <a href="{{ durl.url }}"
+                            class="display-grid
+                                    grid-auto-flow-column
+                                    justify-content-start
+                                    align-items-center">
+                            <div class="donut-container" id='donut_{{ forloop.counter }}'>
+                                <div class="text-container">
+                                    <div class="name font-size-1.3em">{{ obj.caption }}</div>
+                                </div>
+                            </div>
+
+                            <div class="info padding-0em-1em">
+                                <!-- {{ obj }} -->
+
+                                <div class="display-none compressed">{{ obj.compressed }}</div>
+                                <div class="string-names">
+                                    <span class="system_name"> {{ obj.system_name }}</span>
+                                    <span class="volume_name"> {{ obj.volume_name }}</span>
+                                    <span class="drive_type_str"> {{ obj.drive_type_str }}</span>
+                                </div>
+                                <div class="free_space_str"> {{ obj.free_space_str }} of {{ obj.size_str }}</div>
+                                <div class="display-none name"> {{ obj.name }}</div>
+                            </div>
+                        </a>
+
+                        <script>
+                            driveLoad({
+                                container: 'donut_{{ forloop.counter }}'
+                                , size: {{ obj.size }}
+                                , free: {{ obj.free_space }}
+                            })
+                        </script>
                         {% comment %}
                         <div>drive_type_str: {{ obj.drive_type_str }}</div>
                         <div>name: {{ obj.name }}</div>
@@ -38,5 +76,6 @@
 </div>
 
 {% css "css/file/file_list.css" %}
+{% css "css/drives/list.css" %}
 
 {% endblock content.center %}

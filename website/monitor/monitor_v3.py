@@ -10,7 +10,20 @@ from queue import Empty
 from functools import partial
 
 from datetime import datetime
+import traceback
 
+import win32process
+from pathlib import Path
+import asyncio
+import time
+from concurrent.futures import ThreadPoolExecutor
+from queue import Queue
+# now = datetime.now
+from django.utils import timezone
+# >>> import pytz
+# >>> timezone.now()
+# datetime.datetime(2013, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC)
+now = timezone.now
 
 import os
 
@@ -38,11 +51,6 @@ top_content = {'step': 0}
 
 def log(*a, **kw):
     print(" > ", *a, **kw)
-
-import asyncio
-import time
-from concurrent.futures import ThreadPoolExecutor
-from queue import Queue
 
 
 async def blocking_function(blocking, *args):
@@ -108,7 +116,9 @@ async def print_queue(queue: Queue):
 if __name__ == "__main__":
     asyncio.run(main())
 
+
 def run_pool(items, callback=None, config=None):
+    print('Run pool with len', len(items))
     queue = Queue()
     # queue = asyncio.Queue()
     heads = tuple(
@@ -123,12 +133,6 @@ def run_pool(items, callback=None, config=None):
         except KeyboardInterrupt:
             print('Monitor level KeyboardInterrupt')
 
-# now = datetime.now
-from django.utils import timezone
-# >>> import pytz
-# >>> timezone.now()
-# datetime.datetime(2013, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC)
-now = timezone.now
 
 def queue_put(q, *a):
     r = a[0] + (now(),)
@@ -165,12 +169,17 @@ async def async_proc_queue_handler(queue, callback=None):
             print('\nNothing\n')
 
 
-
 def proc_head_astart(args):
     if callable(args[0]):
         print('proc_head_astart redirecting functional handler.')
         return args[0](*args[1:])
-    return astart(*args)
+
+    try:
+        return astart(*args)
+    except KeyboardInterrupt:
+        print('proc_head_astart KeyboardInterrupt.')
+        raise KeyboardInterruptError()
+
 
 
 def astart(watch_dir, callback=None, queue=None, config=None):
@@ -207,7 +216,10 @@ async def start(watch_dir=None, config=None, callback=None, queue=None):
     #watch_dir = watch_dir
     hDir = await get_hdir(watch_dir)
 
-    await loop(hDir, watch_dir, callback or log_callback, config=config)
+    try:
+        await loop(hDir, watch_dir, callback or log_callback, config=config)
+    except KeyboardInterrupt:
+        print('Interrupt')
     log('monitor.start Done')
 
 
@@ -306,8 +318,6 @@ async def step(hDir, root_path, callback, config=None):
     return await step_result_react(results, root_path, callback, config)
 
 
-import win32process
-
 def set_low_priority():
     # Run this thread at a lower priority to the main message-loop (and printing output)
     # thread can keep up
@@ -366,22 +376,24 @@ async def wait(hDir, timeout=1000):
         log('monitor.start - FileError', e)
         return None
 
-from pathlib import Path
-
 
 async def step_result_react(results, root_path, callback, config):
     log('Iterating', len(results), 'results')
     # clean_actions = ()
 
-    for action, file in results:
-        await test_result(root_path, file, action, callback, config)
+    ok = None
 
+    for action, file in results:
+        _ok = await test_result(root_path, file, action, callback, config)
+        if _ok is False:
+            return False
+        ok = _ok
     # if config.get('callback_many'):
     #     config['callback_many']()
 
-    log('monitor.step step_result_react to end.')
+    log('monitor.step step_result_react to end - ok:', ok)
     # return await test_result(root_path, file, action, callback, config)
-
+    return ok
 
 async def test_result(root_path, file, action, callback, config):
 
@@ -390,7 +402,7 @@ async def test_result(root_path, file, action, callback, config):
     fp = Path(full_filename)
     if ignore(action, file, fp.as_posix(), config):
         # log('x ', full_filename)
-        return
+        return True
 
     # log('Testing with:', Path(full_filename).suffix, full_filename)
     # if len(fp.suffix) == 0:
@@ -402,7 +414,7 @@ async def test_result(root_path, file, action, callback, config):
 
     if _action == last:
         log('Drop Duplicate')
-        return
+        return True
 
     return await execute_action(_action, file, callback, config)
 
@@ -436,7 +448,6 @@ async def execute_action(_action, file, callback, config):
         traceback.print_exc()
         raise e
 
-import traceback
 
 async def execute(result, callback, settings):
     try:

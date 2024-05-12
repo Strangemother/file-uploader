@@ -1,0 +1,38 @@
+.palette-container {
+    border: solid 2px black;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: grid;
+}
+
+.page-overlay {
+    background: #000000CC;
+    grid-area: 1/1/1/1;
+}
+
+.panel-container {
+    grid-area: 1/1/1/1;
+}
+
+.pseudo-field {
+    background: #222;
+    padding: 0.7em 1.1em;
+    font-size: 1.2em;
+}
+
+.input-interface .pseudo-field {
+    min-width: 20em;
+    width: 80%;
+    max-width: 59em;
+    margin-top: 4em;
+    border-radius: 0.5em;
+}
+
+.input-interface {
+    display: grid;
+    justify-items: center;
+}

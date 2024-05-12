@@ -10,6 +10,7 @@ class ContentLink(models.Model):
 class Box(models.Model):
     label = fields.chars()
     desc = fields.text(nil=True)
+    uuid = fields.str_uuid(nil=True)
     user = fields.user_fk(nil=True)
     links = fields.m2m(ContentLink, nil=True)
 

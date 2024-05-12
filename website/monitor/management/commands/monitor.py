@@ -7,18 +7,27 @@ import traceback
 
 from asgiref.sync import sync_to_async, async_to_sync
 
+from django.conf import settings
+
+
 def get_config():
+    name = settings.DATABASES['monitor']['NAME']
+    pn = Path(name)
+    ignores = ()
+    if pn.exists():
+        ignores += (pn.parent.as_posix(), )
+
     config = {
         'ignore': (
-            "C:/Users/jay/Documents/projects/uploader/website",
-            "C:/Users/jay/Documents/projects/uploader/website/db.sqlite3-journal",
-            "C:/Users/jay/Documents/projects/uploader/website/db.sqlite3",
-            "C:/Users/jay/Documents/projects/uploader/website/monitor_db.sqlite3-journal",
-            "C:/Users/jay/Documents/projects/uploader/website/monitor_db.sqlite3",
+            # "C:/Users/jay/Documents/projects/uploader/website",
+            # "C:/Users/jay/Documents/projects/uploader/website/db.sqlite3-journal",
+            # "C:/Users/jay/Documents/projects/uploader/website/db.sqlite3",
+            # "C:/Users/jay/Documents/projects/uploader/website/monitor_db.sqlite3-journal",
+            # "C:/Users/jay/Documents/projects/uploader/website/monitor_db.sqlite3",
         ),
         'ignore_dirs': (
             "C:/Users/jay/AppData/Local/Google/Chrome/User Data/Default",
-        )
+        ) + ignores
     }
 
     return config
@@ -33,7 +42,9 @@ class Command(BaseCommand):
     async def monitor_callback(self, items, **kw):
         print('monitor_callback', len(items), 'updates')
         try:
-            await self.long_record(items)
+            r = await self.long_record(items)
+            print('returning', r)
+            return r
         except Exception as err:
             print('-'*40)
             print(err)
@@ -55,6 +66,7 @@ class Command(BaseCommand):
         except KeyboardInterrupt:
             print('Command level KeyboardInterrupt')
 
+    counter = 0
     async def long_record(self, items):
         entries = tuple(Entry(*x) for x in items)
         print('long_record reading', len(items), 'items')
@@ -66,6 +78,10 @@ class Command(BaseCommand):
             record = await self.get_record(action, entry.dt)
             # print('Storing record', record)
             await self.write_entry_record(monitor_entry, record)
+        c = self.counter + 1
+        self.counter = c
+        print('Done. counter', c)
+        return c < 4
 
     @sync_to_async
     def write_entry_record(self, monitor_entry, record):

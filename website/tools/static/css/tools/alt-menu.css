@@ -1,0 +1,63 @@
+.alt-click-menu, .alt-menu{
+    /* border-radius: 0.5em; */
+    display: block;
+    position: absolute;
+    /* padding: 0.5em 0.7em; */
+    background: linear-gradient(109deg, #0e0e0e, #040404);
+    background: #141414;
+    box-shadow: 1px 2px 3px black;
+    /* min-height: 300px; */
+    min-width: 150px;
+    /* outline: solid 2px #0c0c0c; */
+    color: inherit;
+    text-decoration: inherit;
+}
+
+
+.alt-click-menu .menu-content {
+    /* min-width: 600px; */
+    /* min-height: 700px; */
+}
+
+.alt-menu.hidden {visibility: hidden;/* display: none; */}
+
+.alt-menu a, body .alt-menu a {
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.4em 0.7em;
+    line-height: 1;
+}
+
+body .alt-menu p {
+    
+}
+
+body .alt-menu hr {
+    border: none;
+    height: 2px;
+    background: #020202;
+    padding: 0;
+    margin: 0;
+}
+
+.alt-menu .menu-footer {
+    min-height: 0.5em;
+}
+
+.alt-menu .title {
+    padding: 0.5em 0.8em;
+}
+
+.alt-menu .title p, .alt-menu .title a {
+    margin: 0;
+    padding: 0;
+}
+
+.copy-menu.alt-menu.hidden {
+    min-width: 300px;
+}
+
+.copy-menu.alt-menu {
+    min-width: 230px;
+}

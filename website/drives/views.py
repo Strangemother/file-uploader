@@ -68,14 +68,29 @@ def get_files(name, path):
     res = Path(f"{name}:/") / path
 
     exists = res.exists()
+    content_items = ()
+    count = 0
+    total_size = 0
+
+    if exists:
+        content_items = tuple(iter_files(res))
+        count = len(content_items)
+        total_size = sum(x.bytes() for x in content_items)
+
+    def blank(items):
+        return items
+
     return {
             'path_str': res.as_posix(),
             'path': res,
             'exists': exists,
-            'content_items': partial(iter_files, res) if exists else (),
+            'content_items': lambda: content_items,
             'tags': partial(get_tags, res),
             'note': partial(get_note, res),
             'is_public': partial(is_public, res),
+            # 'content_items': content_items,
+            'count': count,
+            'total_size': total_size,
         }
 
 # def get_items(path):
@@ -83,12 +98,46 @@ def get_files(name, path):
 
 
 def iter_files(path):
+    return iter_files_scan(path)
+    # return iter_files_path(path)
+
+def as_posix(item):
+    return "item" #Path(item).as_posix()
+
+class LesserDir(object):
+    def __init__(self, item):
+        self.item = item
+
+    def __getattr__(self, key):
+        return getattr(self.item, key)
+
+    def as_posix(self):
+        return Path(self.path).as_posix()
+
+    def bytes(self):
+        return self.item.stat().st_size
+
+
+def iter_files_path(path):
     res = []
     try:
         for item in path.iterdir():
+            item.as_posix = as_posix
             yield item
     except PermissionError as err:
         return str(err)
+
+import os
+from scan.scan import list_all
+
+def iter_files_scan(path):
+    items = tuple(os.scandir(path))
+    try:
+        for entry in items:
+            yield LesserDir(entry)
+    except PermissionError as err:
+        return str(err)
+    # return list_all(path)
 
 
 class DriveListView(views.ListView):

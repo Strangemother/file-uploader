@@ -1,0 +1,10 @@
+Caption        G:
+Compressed     False
+FreeSpace      334752260096
+Name           G:
+ProviderName   None
+Size           2000396742656
+SystemName     SADIE
+VolumeName     beta
+DriveType      3
+---

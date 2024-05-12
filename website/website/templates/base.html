@@ -33,8 +33,10 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
+        <div class="center-content" polyclass>
 
         {% block content %}{% endblock %}
+        </div>
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/website.js' %}"></script>

@@ -11,6 +11,13 @@ dz.setup({
     , clickThrough: true
 });
 
+
+// dz.setup({
+//     dropSpace: '.multi.drag-drop-zone'
+//     , formField: '#id_files'
+//     , clickThrough: true
+// });
+
 const fileChangeHandler = function(e){
     let totalSize = 0;
     for(let file of e.target.files) {

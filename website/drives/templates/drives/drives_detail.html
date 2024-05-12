@@ -5,6 +5,8 @@
 
 {% block content.center %}
 
+{% include "palette/panel.html" %}
+
 <div polyclass>
 
     <div class="color-#ddd">
@@ -88,12 +90,23 @@
         <ul>
             {% for obj in object.files.content_items %}
                  <li class="display-flex">
+
+                    {% if obj.is_dir %}
+                        {% str_merge obj.name "/" as nn %}
+                        {% link "drives:content" obj.as_posix nn %}
+                    {% else %}
+                        {% link "drives:file" obj.as_posix obj.name %}
+                    {% endif %}
+
+                    {% comment %}
+
                     {% if obj.is_dir %}
                         {% str_merge obj.name "/" as nn %}
                         {% link "drives:content" obj.drive obj.branch nn %}
                     {% else %}
                         {% link "drives:file" obj.drive obj.branch obj.name %}
                     {% endif %}
+                    {% endcomment %}
                 </li>
             {% endfor %}
         </ul>

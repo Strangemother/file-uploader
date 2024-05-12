@@ -6,6 +6,8 @@ class ContentLink(models.Model):
     uuid = fields.str_uuid()
 
 
+from pathlib import Path
+
 class ContentPublish(models.Model):
     """A single item published.
 
@@ -28,6 +30,10 @@ class ContentPublish(models.Model):
 
     created, updated = fields.dt_cu_pair()
 
+    @property
+    def path(self):
+        return Path(self.fullpath)
+
     def user_can_access(self, user):
         """Given a user, assert if they have access.
         """
@@ -47,7 +53,7 @@ class FilePublishedAutoMixin(AutoModelMixin):
 
     @property
     def is_public(self):
-        return ContentPublish.objects.filter(fullpath=self.store_path).exists()
+        return ContentPublish.objects.filter(fullpath=self.as_posix()).exists()
 
     class Meta:
         model_name = "file.FileUnit"

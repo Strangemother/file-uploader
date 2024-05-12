@@ -62,8 +62,11 @@ async def start(watch_dir=None, config=None, callback=None):
     #late_task = asyncio.get_running_loop().create_task(late_call())
     #watch_dir = watch_dir
     hDir = await get_hdir(watch_dir)
+    try:
+        await loop(hDir, watch_dir, callback or log_callback, config=config)
+    except KeyboardInterrupt:
+        print('Interrupt')
 
-    await loop(hDir, watch_dir, callback or log_callback, config=config)
     log('monitor.start Done')
 
 

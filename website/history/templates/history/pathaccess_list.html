@@ -16,7 +16,7 @@
                     gap-.5em">
             {% for obj in object_list %}
                 <li>
-                    {{ obj.fullpath }}
+                    {% link "drives:file" obj.fullpath obj.fullpath %}
                 </li>
             {% endfor %}
         </ul>

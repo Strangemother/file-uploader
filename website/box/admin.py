@@ -1,3 +1,6 @@
 from django.contrib import admin
+from trim import admin as t_admin
 
-# Register your models here.
+from . import models
+
+t_admin.register_models(models)

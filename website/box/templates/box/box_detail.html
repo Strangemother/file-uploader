@@ -1,0 +1,21 @@
+{% theme "base" %}
+{% load static link quickforms %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+{% link "box:list" "Boxes" %}
+{{ object }}
+
+{% link "box:link_form" object.uuid "Add Link" %}
+<ul class="display-grid
+                    list-style-none
+                    margin-0em padding-0em
+                    gap-.5em">
+    {% for link in object.links.all %}
+        <li>
+            {{ link.fullpath }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock content.center %}

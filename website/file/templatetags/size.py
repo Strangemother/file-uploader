@@ -4,6 +4,11 @@ register = template.Library()
 
 @register.filter
 def human_bytes(bytes_int):
+    """Present integer bytes as a human readable string using convert_size
+
+        {{ fileitem.bytes|human_bytes }}
+
+    """
     try:
         return convert_size(int(bytes_int))
     except ValueError:

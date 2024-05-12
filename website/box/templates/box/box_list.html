@@ -1,0 +1,30 @@
+{% theme "base" %}
+{% load static link size strings %}
+
+{% block wagtailbar %}{% endblock wagtailbar %}
+
+{% block content.center %}
+
+<div polyclass>
+
+    <div class="color-#ddd">
+        <h2>Boxes</h2>
+        {% link "box:create" "Create" %}
+
+        <div>
+            Count: {{ object_list.count }}
+        </div>
+        <ul class="display-grid
+                    list-style-none
+                    margin-0em padding-0em
+                    gap-.5em">
+            {% for object in object_list %}
+                <li>
+                    {% link "box:detail" object.uuid object.label %}
+
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock content.center %}

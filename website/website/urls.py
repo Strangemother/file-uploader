@@ -15,6 +15,7 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
+    path('accounts/', include('allauth.urls')),
 ] + includes(
         ('file', 'uploads/',),
         'drives',
@@ -22,8 +23,11 @@ urlpatterns = [
         'publishing',
         'monitor',
         'explorer',
-        ('trim.account', 'account/',),
+        'box',
+        'thumbnailer',
+        # ('trim.account', 'account/',),
         ('drive_tags', 'tags/',),
+
     )
 
 

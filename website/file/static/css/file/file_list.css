@@ -2,10 +2,10 @@
 li.file-item .filepath a {
     word-break: break-word;
     color: inherit;
-    display: block;
+    /* display: block; */
     text-decoration: none;
-    padding: 1em 2em;
-    /* border-radius: 2.3em; */
+    /* padding: 0.8em 1em; */
+    /* border-radius: 2.4em; */
 }
 
 
@@ -14,7 +14,7 @@ li.file-item .filepath a {
 li.file-item a:hover,
 li.file-item a:focus,
 li.file-item a:focus-within {
-    background: #000;
+    /* background: #000; */
 }
 
 .download-link-container {

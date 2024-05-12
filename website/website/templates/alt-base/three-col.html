@@ -14,14 +14,22 @@
 {% block extra_css %}
 
     {% css "css/alt-base/base.css" %}
+
     {% css "css/alt-base/header-nav.css" %}
     {% css "css/alt-base/three-col.css" %}
+    {% css "css/global.css" %}
 
 {% endblock extra_css %}
 
+{% block head_js %}
+    {# <script src="https://cdn.jsdelivr.net/npm/polyclass@latest/dist/polyclass.browser-full.js"></script> #}
+    {% js "js/polyclass.browser-full.js" %}
+
+{% endblock head_js %}
+
 {% block content %}
 
-<header polyclass class="classic-header
+<header class="classic-header
               position-sticky
               top-0em
               display-grid
@@ -30,7 +38,7 @@
               align-items-center
               grid-auto-columns-1fr-5em">
 
-    <div class="logo display-none">
+    <div class="logo">
         <h1>
             {{ page.get_site.site_name }}
         </h1>
@@ -42,7 +50,8 @@
 
     <div class="user-area">
         <div class="account-area">
-            {% link "account:profile" user %}
+            {# link "account:profile" user #}
+            {{ user }}
         </div>
     </div>
 

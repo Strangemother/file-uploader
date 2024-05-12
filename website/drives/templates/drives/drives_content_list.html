@@ -33,16 +33,19 @@
         </div>
 
                     <div class="filepath word-break-break">
-
-                        obj: {{ obj }}
+                        <div>count: {{ obj.count }}</div>
+                        <div>total_size: {{ obj.total_size|human_bytes }}</div>
                         <ul>
                             {% for fileitem in obj.content_items %}
                                 <li class="display-flex">
                                     {% if fileitem.is_dir %}
                                         {% str_merge fileitem.name "/" as nn %}
-                                        {% link "drives:content" fileitem.drive fileitem.branch nn %}
+                                        {% link "drives:content" fileitem.as_posix nn %}
                                     {% else %}
-                                        {% link "drives:file" fileitem.drive fileitem.branch fileitem.name %}
+
+                                        {% link "drives:file" fileitem.as_posix fileitem.name %}
+                                        {{ fileitem.bytes|human_bytes }}
+
                                     {% endif %}
                                 </li>
                             {% endfor %}
